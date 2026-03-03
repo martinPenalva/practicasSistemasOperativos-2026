@@ -1,22 +1,14 @@
-[MQTT] Conectando a tcp://broker.emqx.io:1883 con client_id=cpp_sub_861781830...
+[MQTT] Conectando a tcp://broker.emqx.io:1883 con client_id=cpp_sub_835107694...
 [MQTT] Conectado. Cause: connect onSuccess called
 [MQTT] Subscribing: sensor/data/sen55 (qos=0)...
 [MQTT] OK subscribed: sensor/data/sen55
 [MQTT] Subscribing: sensor/data/gas_sensor (qos=0)...
 [MQTT] OK subscribed: sensor/data/gas_sensor
 [MQTT] Escuchando... (Ctrl+C para salir)
-
-[MSG] Topic: sensor/data/sen55
- Payload: {"MassConcentrationPm1p0":7.80,"MassConcentrationPm2p5":8.20,"MassConcentrationPm4p0":8.20,"MassConcentrationPm10p0":8.20,"AmbientHumidity":50.13,"AmbientTemperature":21.25,"VocIndex":102.00,"NoxIndex":1.00}
-
-[MSG] Topic: sensor/data/gas_sensor
- Payload: {"GM102B":43.00,"GM302B":59.00,"GM502B":71.00,"GM702B":194.00}
-
-[MSG] Topic: sensor/data/sen55
- Payload: {"MassConcentrationPm1p0":7.90,"MassConcentrationPm2p5":8.30,"MassConcentrationPm4p0":8.30,"MassConcentrationPm10p0":8.30,"AmbientHumidity":50.14,"AmbientTemperature":21.25,"VocIndex":102.00,"NoxIndex":1.00}
-
-[MSG] Topic: sensor/data/gas_sensor
- Payload: {"GM102B":43.00,"GM302B":59.00,"GM502B":71.00,"GM702B":193.00}
+[MQTT] Conexión perdida. Cause: (none)
+[MQTT] Conectado. Cause: automatic reconnect
+[MQTT] Conexión perdida. Cause: (none)
+[MQTT] Conectado. Cause: automatic reconnect
 
 [MQTT] Cerrando...
 [MQTT] Unsubscribe: sensor/data/sen55

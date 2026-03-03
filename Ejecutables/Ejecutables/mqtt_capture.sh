@@ -234,71 +234,127 @@ for captura in range(1, 4):
             all_data[key].extend(values)
 
 # Combinar los 2 sensores en una sola línea de evolución
-if all_data and len(all_data) <= 2:
-    print(f"Sensores reales detectados: {list(all_data.keys())}")
+combined_values = []
+
+for captura in range(1, 4):
+    log_file = f"mqtt_capture_{captura}.log"
+    current_topic = None
+
+    with open(log_file, "r") as f:
+        lines = f.readlines()
+
+    for line in lines:
+        line = line.strip()
+
+        if "Topic:" in line:
+            if "sensor/data/sen55" in line:
+                current_topic = "sen55"
+            elif "sensor/data/gas_sensor" in line:
+                current_topic = "gas"
+            else:
+                current_topic = None
+
+        if "Payload:" in line and current_topic:
+            try:
+                payload = line.split("Payload:")[1].strip()
+                data = json.loads(payload)
+
+                if isinstance(data, dict):
+                    for key, value in data.items():
+                        if isinstance(value, (int, float)):
+                            combined_values.append(value)
+
+            except:
+                pass
+
+# Generar 3 gráficas: 20s, 40s y 60s
+total_samples = len(combined_values)
+
+# Gráfica 1: 20 segundos (primer tercio)
+samples_20s = total_samples // 3
+data_20s = combined_values[:samples_20s]
+
+plt.figure(figsize=(12,6))
+plt.plot(data_20s, linewidth=2)
+plt.title("Todos los datos recogidos - 20 segundos")
+plt.xlabel("Índice")
+plt.ylabel("Valor")
+plt.grid(True)
+plt.savefig("plots/dos_sensores_reales_20s.png")
+plt.close()
+
+# ASCII de 20 segundos
+if data_20s:
+    y_min = int(min(data_20s))
+    y_max = int(max(data_20s))
+    samples = len(data_20s)
+
+    print(f"\n=== 2 SENSORES JUNTOS (ASCII) - 20 segundos ===")
+    print(f"muestras={samples} | y_min={y_min} | y_max={y_max}\n")
+
+    height = 8  # altura reducida para simplificar
+    step = (y_max - y_min) / height if y_max != y_min else 1
+
+    # Crear matriz vacía para el gráfico de puntos
+    grid = [['  ' for _ in range(samples)] for _ in range(height + 1)]
     
-    # Combinar todos los valores de los 2 sensores en una sola lista
-    combined_values = []
-    for sensor_key, values in all_data.items():
-        combined_values.extend(values)
-    
-    # Calcular el máximo de muestras para el eje temporal
-    max_samples = len(combined_values)
-    
-    # Gráfica 1: Primer tercio de los datos
-    samples_20s = max_samples // 3
-    data_20s = combined_values[:samples_20s]
-    
-    plt.figure(figsize=(12, 6))
-    plt.plot(range(len(data_20s)), data_20s, 'b-', linewidth=3, label='2 sensores combinados')
-    plt.title("Todos los datos recogidos - 20 segundos", fontsize=16, fontweight='bold')
-    plt.xlabel("Índice", fontsize=14)
-    plt.ylabel("Valor", fontsize=14)
-    plt.legend(fontsize=12)
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.savefig(f"{output_dir}/dos_sensores_reales_20s.png", dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    # Gráfica 2: Dos tercios de los datos
-    samples_40s = 2 * (max_samples // 3)
-    data_40s = combined_values[:samples_40s]
-    
-    plt.figure(figsize=(12, 6))
-    plt.plot(range(len(data_40s)), data_40s, 'g-', linewidth=3, label='2 sensores combinados')
-    plt.title("Todos los datos recogidos - 40 segundos (acumulativo)", fontsize=16, fontweight='bold')
-    plt.xlabel("Índice", fontsize=14)
-    plt.ylabel("Valor", fontsize=14)
-    plt.legend(fontsize=12)
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.savefig(f"{output_dir}/dos_sensores_reales_40s.png", dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    # Gráfica 3: 60 segundos (todos los datos)
-    data_60s = combined_values
-    
-    plt.figure(figsize=(12, 6))
-    plt.plot(range(len(data_60s)), data_60s, 'r-', linewidth=3, label='2 sensores combinados')
-    plt.title("Todos los datos recogidos - 60 segundos (acumulativo)", fontsize=16, fontweight='bold')
-    plt.xlabel("Índice", fontsize=14)
-    plt.ylabel("Valor", fontsize=14)
-    plt.legend(fontsize=12)
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.savefig(f"{output_dir}/dos_sensores_reales_60s.png", dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    print("✓ 3 gráficas con los 2 sensores reales en una sola línea generadas:")
-    print(f"  - {output_dir}/dos_sensores_reales_20s.png (solo 20s)")
-    print(f"  - {output_dir}/dos_sensores_reales_40s.png (20s + 20s nuevos)")
-    print(f"  - {output_dir}/dos_sensores_reales_60s.png (40s + 20s nuevos)")
-    print(f"  - Sensores reales: {len(all_data)} tipos")
-    print(f"  - Total de datos combinados: {len(combined_values)} valores")
-else:
-    print("No se detectaron los 2 sensores reales o hay datos insuficientes.")
-    if all_data:
-        print(f"Sensores encontrados: {list(all_data.keys())}")
+    # Colocar puntos en las posiciones correctas
+    for i, v in enumerate(data_20s):
+        if y_max != y_min:
+            level = int((v - y_min) / step)
+            level = min(max(level, 0), height)
+            grid[height - level][i] = '* '
+        else:
+            grid[height // 2][i] = '* '
+
+    # Dibujar gráfico con puntos
+    for level in range(height + 1):
+        threshold = y_min + step * (height - level)
+        line = f"{int(threshold):4} | "
+        for col in grid[level]:
+            line += col
+        print(line)
+
+    # Eje X simplificado
+    print("     +" + "---" * samples)
+    print("       ", end="")
+    for i in range(samples):
+        print(f"{i%10}  ", end="")
+    print("\n")
+
+    print("Últimos valores:", data_20s[-5:])
+    print(f"ASCII de 20s generado ✓\n")
+
+# Gráfica 2: 40 segundos (dos tercios)
+samples_40s = 2 * (total_samples // 3)
+data_40s = combined_values[:samples_40s]
+
+plt.figure(figsize=(12,6))
+plt.plot(data_40s, linewidth=2)
+plt.title("Todos los datos recogidos - 40 segundos")
+plt.xlabel("Índice")
+plt.ylabel("Valor")
+plt.grid(True)
+plt.savefig("plots/dos_sensores_reales_40s.png")
+plt.close()
+
+# Gráfica 3: 60 segundos (todos los datos)
+data_60s = combined_values
+
+plt.figure(figsize=(12,6))
+plt.plot(data_60s, linewidth=2)
+plt.title("Todos los datos recogidos - 60 segundos")
+plt.xlabel("Índice")
+plt.ylabel("Valor")
+plt.grid(True)
+plt.savefig("plots/dos_sensores_reales_60s.png")
+plt.close()
+
+print("✓ 3 gráficas con los 2 sensores reales generadas:")
+print(f"  - plots/dos_sensores_reales_20s.png (primer tercio)")
+print(f"  - plots/dos_sensores_reales_40s.png (dos tercios)")
+print(f"  - plots/dos_sensores_reales_60s.png (todos los datos)")
+print(f"  - Total de datos combinados: {len(combined_values)} valores")
 PY
 
 echo "[8] Proceso completado. Revisa la carpeta plots/ para ver todas las gráficas."
