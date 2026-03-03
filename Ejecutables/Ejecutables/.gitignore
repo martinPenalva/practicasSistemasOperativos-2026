@@ -1,0 +1,9 @@
+# Ignorar entornos virtuales
+Ejecutables/Ejecutables/venv/
+venv/
+
+# Ignorar cachés y compilados
+__pycache__/
+*.pyc
+*.log
+*.zip

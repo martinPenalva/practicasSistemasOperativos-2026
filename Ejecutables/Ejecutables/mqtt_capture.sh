@@ -5,7 +5,6 @@ echo "==============================="
 echo " Captura automática MQTT"
 echo "==============================="
 
-# Pedir tiempo de captura
 read -p "Tiempo de captura (segundos): " tiempo
 
 if ! [[ "$tiempo" =~ ^[0-9]+$ ]]; then
@@ -13,7 +12,6 @@ if ! [[ "$tiempo" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-# Número de capturas
 num_capturas=3
 espera_entre_capturas=20
 
