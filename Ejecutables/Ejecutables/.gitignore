@@ -2,8 +2,8 @@
 Ejecutables/Ejecutables/venv/
 venv/
 
-# Ignorar cachés y compilados
+# Ignorar cachés y    compilados
 __pycache__/
 *.pyc
-*.log
+*.log 
 *.zip
