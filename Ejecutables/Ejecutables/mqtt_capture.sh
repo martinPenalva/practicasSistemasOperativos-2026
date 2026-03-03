@@ -93,7 +93,7 @@ for line in lines:
             pass
 
 # ===============================
-# ASCII TIPO FIGURA
+# ASCII TIPO FIGURA CON PUNTOS (no líneas)
 # ===============================
 
 if gas_data and "GM702B" in gas_data[0]:
@@ -110,17 +110,26 @@ if gas_data and "GM702B" in gas_data[0]:
     height = 10  # altura del gráfico ASCII
     step = (y_max - y_min) / height if y_max != y_min else 1
 
-    # Dibujar gráfico
-    for level in reversed(range(height + 1)):
-        threshold = y_min + step * level
+    # Crear matriz vacía para el gráfico de puntos
+    grid = [['  ' for _ in range(samples)] for _ in range(height + 1)]
+    
+    # Colocar puntos en las posiciones correctas
+    for i, v in enumerate(values):
+        if y_max != y_min:
+            # Calcular en qué nivel va este punto
+            level = int((v - y_min) / step)
+            level = min(max(level, 0), height)  # Asegurar que esté en rango
+            grid[height - level][i] = '* '
+        else:
+            # Si todos los valores son iguales, ponerlos en el medio
+            grid[height // 2][i] = '* '
+
+    # Dibujar gráfico con puntos
+    for level in range(height + 1):
+        threshold = y_min + step * (height - level)
         line = f"{int(threshold):4} | "
-
-        for v in values:
-            if v >= threshold:
-                line += "*  "
-            else:
-                line += "   "
-
+        for col in grid[level]:
+            line += col
         print(line)
 
     # Eje X
@@ -169,8 +178,8 @@ echo "==============================="
 echo "Se han generado 3 gráficas individuales en la carpeta plots/"
 echo "Logs guardados: mqtt_capture_1.log, mqtt_capture_2.log, mqtt_capture_3.log"
 
-# Generar 3 gráficas acumulativas con todos los datos COMBINADOS en una sola línea
-echo "[7] Generando 3 gráficas acumulativas con todos los datos combinados..."
+# Generar 3 gráficas acumulativas con los 2 sensores reales en una sola línea
+echo "[7] Generando 3 gráficas acumulativas con los 2 sensores reales juntos..."
 python3 - <<PY
 import json
 import os
@@ -181,7 +190,7 @@ from collections import defaultdict
 output_dir = "plots"
 all_data = defaultdict(list)  # Almacenará datos por tipo de sensor/topic
 
-# Combinar datos de todas las capturas manteniendo el orden temporal
+# Combinar datos de todas las capturas - SOLO LOS 2 SENSORES REALES ESPECÍFICOS
 for captura in range(1, 4):
     log_file = f"mqtt_capture_{captura}.log"
     
@@ -195,115 +204,101 @@ for captura in range(1, 4):
         line = line.strip()
 
         if "Topic:" in line:
-            # Extraer el tipo de topic
-            if "gas_sensor" in line:
-                current_topic = "gas_sensor"
-            elif "temperature" in line:
-                current_topic = "temperature"
-            elif "humidity" in line:
-                current_topic = "humidity"
-            elif "pressure" in line:
-                current_topic = "pressure"
+            # Detectar SOLO los 2 sensores reales específicos
+            if "sensor/data/sen55" in line:
+                current_topic = "sensor/data/sen55"
+            elif "sensor/data/gas_sensor" in line:
+                current_topic = "sensor/data/gas_sensor"
             else:
-                current_topic = "other"
+                current_topic = None  # Ignorar otros topics
 
         if "Payload:" in line and current_topic:
             try:
                 payload = line.split("Payload:")[1].strip()
                 data = json.loads(payload)
                 
-                # Procesar diferentes tipos de datos
-                if isinstance(data, dict):
+                # SOLO procesar los 2 sensores reales
+                if isinstance(data, (int, float)):
+                    capture_data[current_topic].append(data)
+                elif isinstance(data, dict):
+                    # Si es diccionario, buscar valores numéricos
                     for key, value in data.items():
                         if isinstance(value, (int, float)):
-                            sensor_key = f"{current_topic}_{key}"
-                            capture_data[sensor_key].append(value)
-                elif isinstance(data, (int, float)):
-                    capture_data[current_topic].append(data)
+                            capture_data[current_topic].append(value)
             except:
                 pass
     
     # Añadir datos de esta captura al total
     for key, values in capture_data.items():
-        all_data[key].extend(values)
+        if values:  # Solo añadir si hay datos
+            all_data[key].extend(values)
 
-# Combinar todos los datos en una sola línea de evolución
-if all_data:
-    print(f"Tipos de datos encontrados: {list(all_data.keys())}")
+# Combinar los 2 sensores en una sola línea de evolución
+if all_data and len(all_data) <= 2:
+    print(f"Sensores reales detectados: {list(all_data.keys())}")
     
-    # Combinar todos los valores de todos los sensores en una sola lista
+    # Combinar todos los valores de los 2 sensores en una sola lista
     combined_values = []
     for sensor_key, values in all_data.items():
         combined_values.extend(values)
     
-    # Ordenar los valores combinados por tiempo (asumimos que ya están en orden temporal)
-    # Si hay diferentes cantidades de datos por sensor, interpolamos al mismo eje temporal
-    
     # Calcular el máximo de muestras para el eje temporal
     max_samples = len(combined_values)
     
-    # Gráfica 1: 20 segundos (primer tercio)
+    # Gráfica 1: Primer tercio de los datos
     samples_20s = max_samples // 3
-    time_20s = np.linspace(0, 20, samples_20s)
     data_20s = combined_values[:samples_20s]
     
     plt.figure(figsize=(12, 6))
-    plt.plot(time_20s, data_20s, 'b-', linewidth=3, label='Todos los datos combinados')
-    plt.title("TODOS LOS DATOS COMBINADOS - 20 segundos", fontsize=16, fontweight='bold')
-    plt.xlabel("Tiempo (segundos)", fontsize=14)
-    plt.ylabel("Valores Combinados", fontsize=14)
+    plt.plot(range(len(data_20s)), data_20s, 'b-', linewidth=3, label='2 sensores combinados')
+    plt.title("Todos los datos recogidos - 20 segundos", fontsize=16, fontweight='bold')
+    plt.xlabel("Índice", fontsize=14)
+    plt.ylabel("Valor", fontsize=14)
     plt.legend(fontsize=12)
     plt.grid(True, alpha=0.3)
-    plt.xlim(0, 20)
     plt.tight_layout()
-    plt.savefig(f"{output_dir}/todos_datos_combinados_20s.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"{output_dir}/dos_sensores_reales_20s.png", dpi=300, bbox_inches='tight')
     plt.close()
     
-    # Gráfica 2: 40 segundos (contiene los 20s anteriores + 20s nuevos)
+    # Gráfica 2: Dos tercios de los datos
     samples_40s = 2 * (max_samples // 3)
-    time_40s = np.linspace(0, 40, samples_40s)
     data_40s = combined_values[:samples_40s]
     
     plt.figure(figsize=(12, 6))
-    plt.plot(time_40s, data_40s, 'g-', linewidth=3, label='Todos los datos combinados')
-    # Marcar dónde termina la gráfica de 20s
-    plt.axvline(x=20, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Límite 20s')
-    plt.title("TODOS LOS DATOS COMBINADOS - 40 segundos (contiene los 20s anteriores)", fontsize=16, fontweight='bold')
-    plt.xlabel("Tiempo (segundos)", fontsize=14)
-    plt.ylabel("Valores Combinados", fontsize=14)
+    plt.plot(range(len(data_40s)), data_40s, 'g-', linewidth=3, label='2 sensores combinados')
+    plt.title("Todos los datos recogidos - 40 segundos (acumulativo)", fontsize=16, fontweight='bold')
+    plt.xlabel("Índice", fontsize=14)
+    plt.ylabel("Valor", fontsize=14)
     plt.legend(fontsize=12)
     plt.grid(True, alpha=0.3)
-    plt.xlim(0, 40)
     plt.tight_layout()
-    plt.savefig(f"{output_dir}/todos_datos_combinados_40s.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"{output_dir}/dos_sensores_reales_40s.png", dpi=300, bbox_inches='tight')
     plt.close()
     
-    # Gráfica 3: 60 segundos (contiene los 40s anteriores + 20s nuevos)
-    time_60s = np.linspace(0, 60, max_samples)
+    # Gráfica 3: 60 segundos (todos los datos)
+    data_60s = combined_values
     
     plt.figure(figsize=(12, 6))
-    plt.plot(time_60s, combined_values, 'r-', linewidth=3, label='Todos los datos combinados')
-    # Marcar dónde terminan las gráficas anteriores
-    plt.axvline(x=20, color='blue', linestyle='--', alpha=0.5, linewidth=2, label='Límite 20s')
-    plt.axvline(x=40, color='green', linestyle='--', alpha=0.7, linewidth=2, label='Límite 40s')
-    plt.title("TODOS LOS DATOS COMBINADOS - 60 segundos (contiene los 40s anteriores)", fontsize=16, fontweight='bold')
-    plt.xlabel("Tiempo (segundos)", fontsize=14)
-    plt.ylabel("Valores Combinados", fontsize=14)
+    plt.plot(range(len(data_60s)), data_60s, 'r-', linewidth=3, label='2 sensores combinados')
+    plt.title("Todos los datos recogidos - 60 segundos (acumulativo)", fontsize=16, fontweight='bold')
+    plt.xlabel("Índice", fontsize=14)
+    plt.ylabel("Valor", fontsize=14)
     plt.legend(fontsize=12)
     plt.grid(True, alpha=0.3)
-    plt.xlim(0, 60)
     plt.tight_layout()
-    plt.savefig(f"{output_dir}/todos_datos_combinados_60s.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"{output_dir}/dos_sensores_reales_60s.png", dpi=300, bbox_inches='tight')
     plt.close()
     
-    print("✓ 3 gráficas acumulativas con datos combinados generadas:")
-    print(f"  - {output_dir}/todos_datos_combinados_20s.png (solo 20s)")
-    print(f"  - {output_dir}/todos_datos_combinados_40s.png (20s + 20s nuevos)")
-    print(f"  - {output_dir}/todos_datos_combinados_60s.png (40s + 20s nuevos)")
+    print("✓ 3 gráficas con los 2 sensores reales en una sola línea generadas:")
+    print(f"  - {output_dir}/dos_sensores_reales_20s.png (solo 20s)")
+    print(f"  - {output_dir}/dos_sensores_reales_40s.png (20s + 20s nuevos)")
+    print(f"  - {output_dir}/dos_sensores_reales_60s.png (40s + 20s nuevos)")
+    print(f"  - Sensores reales: {len(all_data)} tipos")
     print(f"  - Total de datos combinados: {len(combined_values)} valores")
-    print(f"  - Sensores combinados: {len(all_data)} tipos")
 else:
-    print("No hay datos suficientes para generar las gráficas.")
+    print("No se detectaron los 2 sensores reales o hay datos insuficientes.")
+    if all_data:
+        print(f"Sensores encontrados: {list(all_data.keys())}")
 PY
 
 echo "[8] Proceso completado. Revisa la carpeta plots/ para ver todas las gráficas."
