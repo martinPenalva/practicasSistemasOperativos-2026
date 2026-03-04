@@ -252,6 +252,31 @@ muestras=32 | y_min=1 | y_max=494
 - **Patrones repetitivos** de los sensores combinados
 - **Distribución clara** de valores altos y bajos
 
+### 3.1 Gráfica de 60 Segundos (Datos Completos)
+
+```
+📊 Gráfica PNG Generada: dos_sensores_reales_60s.png
+
+Características:
+- Tamaño: 12x6 pulgadas
+- Resolución: 300 DPI
+- Datos: Todos los valores combinados de los 2 sensores
+- Eje X: Índice (0 a 3143 muestras)
+- Eje Y: Valor (1 a 494 unidades)
+- Estilo: Línea continua con linewidth=2
+- Grid: Activado para mejor lectura
+
+Análisis Visual:
+✓ Evolución temporal completa de 60 segundos
+✓ Combinación de sensor/data/sen55 + sensor/data/gas_sensor
+✓ Picos pronunciados hasta 494 unidades
+✓ Valores bajos cercanos a 1 unidad
+✓ Patrones periódicos de comportamiento de sensores
+✓ Tendencia general con fluctuaciones significativas
+```
+
+**Análisis:** La gráfica de 60 segundos muestra la evolución temporal completa de los datos combinados de ambos sensores, permitiendo observar patrones de comportamiento a largo plazo y tendencias que no son visibles en las visualizaciones parciales de 20s y 40s.
+
 ### 4. Generación de Gráficas
 
 ```
