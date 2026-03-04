@@ -1,1 +1,0 @@
-"# practicasSistemasOperativos-2026" 

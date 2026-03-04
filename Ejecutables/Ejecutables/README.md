@@ -4,7 +4,7 @@
 
 **Asignatura:** Sistemas Operativos  
 **Práctica:** Captura automática de datos MQTT y visualización en tiempo real  
-**Autor:** Martin Penalva  
+**Autor:** Martin Peñalva  
 **Fecha:** Marzo 2026  
 **Objetivo:** Desarrollo de un sistema completo de captura, procesamiento y visualización de datos de sensores mediante protocolo MQTT
 
