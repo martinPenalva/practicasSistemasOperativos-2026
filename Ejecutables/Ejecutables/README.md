@@ -1,5 +1,10 @@
 # 📊 Práctica de Captura y Visualización de Datos MQTT
 
+## 🔗 Repositorio GitHub
+**Código fuente:** https://github.com/martinPenalva/practicasSistemasOperativos-2026
+
+---
+
 ## 🎯 Portada
 
 **Asignatura:** Sistemas Operativos  

@@ -1,5 +1,7 @@
 # 📊 Práctica de Captura MQTT y Visualización
 
+
+
 ## 🎯 Objetivo
 Sistema completo para capturar datos de sensores mediante protocolo MQTT y visualizarlos en tiempo real.
 
