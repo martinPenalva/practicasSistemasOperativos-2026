@@ -229,23 +229,28 @@ Proceso activo correctamente.
 ### 3. Visualización ASCII
 
 ```
-=== Todos los datos recogidos (ASCII) ===
+=== 2 SENSORES JUNTOS (ASCII) - 20 segundos ===
+muestras=32 | y_min=1 | y_max=494
 
- 183 |                                     *             
- 175 |                                 *   *           
- 167 |                               *       *         
- 159 |                             *           *       
- 151 |                           *               *     
- 143 |                         *                   *   
- 135 |                       *                       * 
- 127 |                     *                           *
- 119 |                   *                               *
- 111 |                 *                                   *
-     +---|---|---|---|---|---|---|---|---|---|---|---
-       0   1   2   3   4   5   6   7   8   9   
+ 494 |             *                       *                       *
+ 432 |
+ 370 |
+ 309 |
+ 247 |
+ 185 |                       *                       *
+ 124 |
+  62 |                     *                       *
+   1 | * * * * * *   * * *     * * * * * *   * * *     * * * * * *   *
+     +------------------------------------------------------------------------------------------------
+       0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1
 ```
 
-**Análisis:** Visualización "Montaña Rusa" con picos hasta 183 y bajadas hasta 1, mostrando la evolución temporal de los sensores combinados.
+**Análisis:** Visualización "Montaña Rusa" mostrando:
+- **Picos máximos:** hasta 494 unidades
+- **Valores mínimos:** hasta 1 unidad  
+- **32 muestras** procesadas
+- **Patrones repetitivos** de los sensores combinados
+- **Distribución clara** de valores altos y bajos
 
 ### 4. Generación de Gráficas
 
