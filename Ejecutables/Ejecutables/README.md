@@ -252,30 +252,50 @@ muestras=32 | y_min=1 | y_max=494
 - **Patrones repetitivos** de los sensores combinados
 - **Distribución clara** de valores altos y bajos
 
-### 3.1 Gráfica de 60 Segundos (Datos Completos)
+### 3.1 Evolución Temporal: 20s → 40s → 60s
 
-```
-📊 Gráfica PNG Generada: dos_sensores_reales_60s.png
+#### Gráfica de 20 segundos (Primer Tercio)
+![Gráfica de 20 segundos con los 2 sensores combinados](plots/dos_sensores_reales_20s.png)
 
-Características:
-- Tamaño: 12x6 pulgadas
-- Resolución: 300 DPI
-- Datos: Todos los valores combinados de los 2 sensores
-- Eje X: Índice (0 a 3143 muestras)
-- Eje Y: Valor (1 a 494 unidades)
-- Estilo: Línea continua con linewidth=2
-- Grid: Activado para mejor lectura
+**Características:**
+- **Datos:** Primer tercio de la captura (~1048 muestras)
+- **Comportamiento:** Inicio del patrón de sensores
+- **Tendencia:** Primeros picos y valles observables
 
-Análisis Visual:
+---
+
+#### Gráfica de 40 segundos (Dos Tercios)
+![Gráfica de 40 segundos con los 2 sensores combinados](plots/dos_sensores_reales_40s.png)
+
+**Características:**
+- **Datos:** Dos tercios de la captura (~2096 muestras)
+- **Evolución:** Desarrollo del patrón temporal
+- **Tendencia:** Consolidación de comportamientos
+
+---
+
+#### Gráfica de 60 segundos (Datos Completos)
+![Gráfica de 60 segundos con los 2 sensores combinados](plots/dos_sensores_reales_60s.png)
+
+**Características técnicas:**
+- **Archivo:** `dos_sensores_reales_60s.png`
+- **Tamaño:** 12x6 pulgadas
+- **Resolución:** 300 DPI
+- **Datos:** Todos los valores combinados de los 2 sensores
+- **Eje X:** Índice (0 a 3143 muestras)
+- **Eje Y:** Valor (1 a 494 unidades)
+- **Estilo:** Línea continua con linewidth=2
+- **Grid:** Activado para mejor lectura
+
+**Análisis Visual:**
 ✓ Evolución temporal completa de 60 segundos
 ✓ Combinación de sensor/data/sen55 + sensor/data/gas_sensor
 ✓ Picos pronunciados hasta 494 unidades
 ✓ Valores bajos cercanos a 1 unidad
 ✓ Patrones periódicos de comportamiento de sensores
 ✓ Tendencia general con fluctuaciones significativas
-```
 
-**Análisis:** La gráfica de 60 segundos muestra la evolución temporal completa de los datos combinados de ambos sensores, permitiendo observar patrones de comportamiento a largo plazo y tendencias que no son visibles en las visualizaciones parciales de 20s y 40s.
+**Análisis:** La secuencia de gráficas muestra la evolución temporal progresiva de los datos combinados de ambos sensores, permitiendo observar cómo los patrones se desarrollan y consolidan a lo largo del tiempo completo de captura.
 
 ### 4. Generación de Gráficas
 
