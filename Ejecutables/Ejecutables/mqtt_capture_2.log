@@ -1,4 +1,4 @@
-[MQTT] Conectando a tcp://broker.emqx.io:1883 con client_id=cpp_sub_290412293...
+[MQTT] Conectando a tcp://broker.emqx.io:1883 con client_id=cpp_sub_1409375151...
 [MQTT] Conectado. Cause: connect onSuccess called
 [MQTT] Subscribing: sensor/data/sen55 (qos=0)...
 [MQTT] OK subscribed: sensor/data/sen55
@@ -7,22 +7,28 @@
 [MQTT] Escuchando... (Ctrl+C para salir)
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"MassConcentrationPm1p0":9.70,"MassConcentrationPm2p5":10.10,"MassConcentrationPm4p0":10.10,"MassConcentrationPm10p0":10.10,"AmbientHumidity":49.95,"AmbientTemperature":21.00,"VocIndex":494.00,"NoxIndex":1.00}
+ Payload: {"MassConcentrationPm1p0":5.40,"MassConcentrationPm2p5":5.60,"MassConcentrationPm4p0":5.60,"MassConcentrationPm10p0":5.60,"AmbientHumidity":45.85,"AmbientTemperature":23.76,"VocIndex":101.00,"NoxIndex":1.00}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"GM102B":43.00,"GM302B":62.00,"GM502B":75.00,"GM702B":188.00}
+ Payload: {"GM102B":42.00,"GM302B":53.00,"GM502B":60.00,"GM702B":162.00}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"MassConcentrationPm1p0":10.10,"MassConcentrationPm2p5":10.60,"MassConcentrationPm4p0":10.60,"MassConcentrationPm10p0":10.60,"AmbientHumidity":49.90,"AmbientTemperature":21.00,"VocIndex":494.00,"NoxIndex":1.00}
+ Payload: {"MassConcentrationPm1p0":5.40,"MassConcentrationPm2p5":5.70,"MassConcentrationPm4p0":5.70,"MassConcentrationPm10p0":5.70,"AmbientHumidity":45.83,"AmbientTemperature":23.76,"VocIndex":101.00,"NoxIndex":1.00}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"GM102B":43.00,"GM302B":62.00,"GM502B":74.00,"GM702B":188.00}
+ Payload: {"GM102B":42.00,"GM302B":53.00,"GM502B":60.00,"GM702B":162.00}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"MassConcentrationPm1p0":10.20,"MassConcentrationPm2p5":10.70,"MassConcentrationPm4p0":10.70,"MassConcentrationPm10p0":10.70,"AmbientHumidity":49.86,"AmbientTemperature":21.00,"VocIndex":494.00,"NoxIndex":1.00}
+ Payload: {"MassConcentrationPm1p0":5.40,"MassConcentrationPm2p5":5.70,"MassConcentrationPm4p0":5.70,"MassConcentrationPm10p0":5.70,"AmbientHumidity":45.82,"AmbientTemperature":23.76,"VocIndex":101.00,"NoxIndex":1.00}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"GM102B":43.00,"GM302B":61.00,"GM502B":75.00,"GM702B":188.00}
+ Payload: {"GM102B":42.00,"GM302B":52.00,"GM502B":60.00,"GM702B":162.00}
+
+[MSG] Topic: sensor/data/sen55
+ Payload: {"MassConcentrationPm1p0":5.50,"MassConcentrationPm2p5":5.70,"MassConcentrationPm4p0":5.80,"MassConcentrationPm10p0":5.80,"AmbientHumidity":45.83,"AmbientTemperature":23.76,"VocIndex":101.00,"NoxIndex":1.00}
+
+[MSG] Topic: sensor/data/gas_sensor
+ Payload: {"GM102B":42.00,"GM302B":53.00,"GM502B":60.00,"GM702B":162.00}
 
 [MQTT] Cerrando...
 [MQTT] Unsubscribe: sensor/data/sen55

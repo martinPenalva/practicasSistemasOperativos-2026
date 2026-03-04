@@ -1,132 +1,177 @@
 import json
 import os
 import matplotlib.pyplot as plt
+import numpy as np
+from collections import defaultdict
 
-log_file = "mqtt_capture.log"
 output_dir = "plots"
+all_data = defaultdict(list)  # Almacenará datos por tipo de sensor/topic
 
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+# Combinar datos de todas las capturas - SOLO LOS 2 SENSORES REALES ESPECÍFICOS
+for captura in range(1, 4):
+    log_file = f"mqtt_capture_{captura}.log"
+    
+    current_topic = None
+    capture_data = defaultdict(list)
 
-sen55_data = []
-gas_data = []
+    with open(log_file, "r") as f:
+        lines = f.readlines()
 
-with open(log_file, "r") as f:
-    lines = f.readlines()
+    for line in lines:
+        line = line.strip()
 
-current_topic = None
+        if "Topic:" in line:
+            # Detectar SOLO los 2 sensores reales específicos
+            if "sensor/data/sen55" in line:
+                current_topic = "sensor/data/sen55"
+            elif "sensor/data/gas_sensor" in line:
+                current_topic = "sensor/data/gas_sensor"
+            else:
+                current_topic = None  # Ignorar otros topics
 
-# ===============================
-# PARSEO DEL LOG
-# ===============================
-for line in lines:
-    line = line.strip()
+        if "Payload:" in line and current_topic:
+            try:
+                payload = line.split("Payload:")[1].strip()
+                data = json.loads(payload)
+                
+                # SOLO procesar los 2 sensores reales
+                if isinstance(data, (int, float)):
+                    capture_data[current_topic].append(data)
+                elif isinstance(data, dict):
+                    # Si es diccionario, buscar valores numéricos
+                    for key, value in data.items():
+                        if isinstance(value, (int, float)):
+                            capture_data[current_topic].append(value)
+            except:
+                pass
+    
+    # Añadir datos de esta captura al total
+    for key, values in capture_data.items():
+        if values:  # Solo añadir si hay datos
+            all_data[key].extend(values)
 
-    if "Topic:" in line:
-        if "sen55" in line:
-            current_topic = "sen55"
-        elif "gas_sensor" in line:
-            current_topic = "gas"
+# Combinar los 2 sensores en una sola línea de evolución
+combined_values = []
 
-    if "Payload:" in line:
-        try:
-            payload = line.split("Payload:")[1].strip()
-            data = json.loads(payload)
+for captura in range(1, 4):
+    log_file = f"mqtt_capture_{captura}.log"
+    current_topic = None
 
-            if current_topic == "sen55":
-                sen55_data.append(data)
-            elif current_topic == "gas":
-                gas_data.append(data)
+    with open(log_file, "r") as f:
+        lines = f.readlines()
 
-        except json.JSONDecodeError:
-            print("Error parseando JSON")
+    for line in lines:
+        line = line.strip()
 
-# ===============================
-# REPRESENTACIÓN ASCII ESTILO FIGURA
-# ===============================
+        if "Topic:" in line:
+            if "sensor/data/sen55" in line:
+                current_topic = "sen55"
+            elif "sensor/data/gas_sensor" in line:
+                current_topic = "gas"
+            else:
+                current_topic = None
 
-def print_ascii_plot(data_list, sensor_name, variable):
-    if not data_list:
-        print(f"\nNo hay datos para {sensor_name}")
-        return
+        if "Payload:" in line and current_topic:
+            try:
+                payload = line.split("Payload:")[1].strip()
+                data = json.loads(payload)
 
-    values = [d[variable] for d in data_list if variable in d]
+                if isinstance(data, dict):
+                    for key, value in data.items():
+                        if isinstance(value, (int, float)):
+                            combined_values.append(value)
 
-    if not values:
-        print(f"No hay valores para {variable}")
-        return
+            except:
+                pass
 
-    y_min = int(min(values))
-    y_max = int(max(values))
-    samples = len(values)
+# Generar 3 gráficas: 20s, 40s y 60s
+total_samples = len(combined_values)
 
-    print("\n=== MQTT Payload Plot (ASCII) ===")
-    print(f"Sensor={sensor_name} | Variable={variable}")
+# Gráfica 1: 20 segundos (primer tercio)
+samples_20s = total_samples // 3
+data_20s = combined_values[:samples_20s]
+
+plt.figure(figsize=(12,6))
+plt.plot(data_20s, linewidth=2)
+plt.title("Todos los datos recogidos - 20 segundos")
+plt.xlabel("Índice")
+plt.ylabel("Valor")
+plt.grid(True)
+plt.savefig("plots/dos_sensores_reales_20s.png")
+plt.close()
+
+# ASCII de 20 segundos
+if data_20s:
+    y_min = int(min(data_20s))
+    y_max = int(max(data_20s))
+    samples = len(data_20s)
+
+    print(f"\n=== 2 SENSORES JUNTOS (ASCII) - 20 segundos ===")
     print(f"muestras={samples} | y_min={y_min} | y_max={y_max}\n")
 
-    height = 10
+    height = 8  # altura reducida para simplificar
     step = (y_max - y_min) / height if y_max != y_min else 1
 
-    # Dibujo del gráfico
-    for level in reversed(range(height + 1)):
-        threshold = y_min + step * level
+    # Crear matriz vacía para el gráfico de puntos
+    grid = [['  ' for _ in range(samples)] for _ in range(height + 1)]
+    
+    # Colocar puntos en las posiciones correctas
+    for i, v in enumerate(data_20s):
+        if y_max != y_min:
+            level = int((v - y_min) / step)
+            level = min(max(level, 0), height)
+            grid[height - level][i] = '* '
+        else:
+            grid[height // 2][i] = '* '
+
+    # Dibujar gráfico con puntos
+    for level in range(height + 1):
+        threshold = y_min + step * (height - level)
         line = f"{int(threshold):4} | "
-
-        for v in values:
-            if v >= threshold:
-                line += "*  "
-            else:
-                line += "   "
-
+        for col in grid[level]:
+            line += col
         print(line)
 
-    # Eje X
+    # Eje X simplificado
     print("     +" + "---" * samples)
     print("       ", end="")
     for i in range(samples):
         print(f"{i%10}  ", end="")
     print("\n")
 
-    print("Últimos valores:", values[-5:])
-    print("[✓] Representación completada\n")
+    print("Últimos valores:", data_20s[-5:])
+    print(f"ASCII de 20s generado ✓\n")
 
+# Gráfica 2: 40 segundos (dos tercios)
+samples_40s = 2 * (total_samples // 3)
+data_40s = combined_values[:samples_40s]
 
-# 🔵 Gráfico ASCII (elige variable existente en tu log)
-# Ejemplo típico del sensor de gas:
-print_ascii_plot(gas_data, "gas", "GM702B")
+plt.figure(figsize=(12,6))
+plt.plot(data_40s, linewidth=2)
+plt.title("Todos los datos recogidos - 40 segundos")
+plt.xlabel("Índice")
+plt.ylabel("Valor")
+plt.grid(True)
+plt.savefig("plots/dos_sensores_reales_40s.png")
+plt.close()
 
-# ===============================
-# GENERACIÓN DE GRÁFICAS PNG
-# ===============================
+# Gráfica 3: 60 segundos (todos los datos)
+data_60s = combined_values
 
-def plot_sensor(data_list, sensor_name):
-    if not data_list:
-        return
+plt.figure(figsize=(12,6))
+plt.plot(data_60s, linewidth=2)
+plt.title("Todos los datos recogidos - 60 segundos")
+plt.xlabel("Índice")
+plt.ylabel("Valor")
+plt.grid(True)
+plt.savefig("plots/dos_sensores_reales_60s.png")
+plt.close()
 
-    keys = set()
-    for d in data_list:
-        for k, v in d.items():
-            if isinstance(v, (int, float)):
-                keys.add(k)
+print("✓ 3 gráficas con los 2 sensores reales generadas:")
+print(f"  - plots/dos_sensores_reales_20s.png (primer tercio)")
+print(f"  - plots/dos_sensores_reales_40s.png (dos tercios)")
+print(f"  - plots/dos_sensores_reales_60s.png (todos los datos)")
+print(f"  - Total de datos combinados: {len(combined_values)} valores")
+PY
 
-    for key in keys:
-        values = [d[key] for d in data_list if key in d]
-
-        if values:
-            plt.figure()
-            plt.plot(values)
-            plt.title(f"{sensor_name} - {key}")
-            plt.xlabel("Muestras")
-            plt.ylabel(key)
-            plt.grid(True)
-
-            filename = f"{output_dir}/{sensor_name}_{key}.png"
-            plt.savefig(filename)
-            plt.close()
-            print(f"Gráfica guardada en {filename}")
-
-
-plot_sensor(sen55_data, "sen55")
-plot_sensor(gas_data, "gas")
-
-print("\nProceso terminado correctamente.")
+echo "[8] Proceso completado. Revisa la carpeta plots/ para ver todas las gráficas."
