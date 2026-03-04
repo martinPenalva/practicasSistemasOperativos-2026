@@ -113,6 +113,6 @@ Tiempo de captura (segundos): 10
 
 ---
 
-**Autor:** Martin Penalva  
+**Autor:** Martin Peñalva  
 **Asignatura:** Sistemas Operativos  
 **Fecha:** Marzo 2026
