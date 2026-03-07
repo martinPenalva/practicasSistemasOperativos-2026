@@ -1,64 +1,61 @@
-[MQTT] Conectando a tcp://broker.emqx.io:1883 con client_id=cpp_sub_77968157...
-[MQTT] Conectado. Cause: [MQTT] Subscribing: connect onSuccess calledsensor/data/sen55
- (qos=0)...
+[MQTT] Conectando a tcp://broker.emqx.io:1883 con client_id=cpp_sub_1343186483...
+[MQTT] Conectado. Cause: connect onSuccess called
+[MQTT] Subscribing: sensor/data/sen55 (qos=0)...
 [MQTT] OK subscribed: sensor/data/sen55
 [MQTT] Subscribing: sensor/data/gas_sensor (qos=0)...
 [MQTT] OK subscribed: sensor/data/gas_sensor
+
+[MSG] Topic: sensor/data/sen55
+ Payload: {"ts": "2026-03-07T11:16:08.171688+00:00", "device_id": "dev-4252d5e0", "sensor": "sen55", "pm1_0": 24.66, "pm2_5": 63.6, "pm4_0": 90.9, "pm10": 43.65, "voc_index": 312.0, "nox_index": 20.8, "temperature_c": 19.84, "humidity_rh": 52.9}
 [MQTT] Escuchando... (Ctrl+C para salir)
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:19.881438+00:00", "device_id": "dev-d460dec2", "sensor": "sen55", "pm1_0": 28.85, "pm2_5": 55.7, "pm4_0": 72.79, "pm10": 51.52, "voc_index": 364.2, "nox_index": 468.4, "temperature_c": 18.36, "humidity_rh": 56.7}
+ Payload: {"ts": "2026-03-07T11:16:09.172138+00:00", "device_id": "dev-e67df687", "sensor": "sen55", "pm1_0": 13.61, "pm2_5": 5.68, "pm4_0": 38.78, "pm10": 92.75, "voc_index": 309.3, "nox_index": 446.4, "temperature_c": 23.99, "humidity_rh": 59.57}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:19.881491+00:00", "device_id": "dev-e8ce68bb", "sensor": "gas_sensor", "co_ppm": 19.03, "co2_ppm": 683, "ch4_ppm": 8.212, "nh3_ppm": 5.261, "tvoc_ppb": 905}
+ Payload: {"ts": "2026-03-07T11:16:09.172184+00:00", "device_id": "dev-7488670b", "sensor": "gas_sensor", "co_ppm": 20.2, "co2_ppm": 1026, "ch4_ppm": 4.002, "nh3_ppm": 17.709, "tvoc_ppb": 103}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:20.881814+00:00", "device_id": "dev-2ec2e51d", "sensor": "sen55", "pm1_0": 20.25, "pm2_5": 67.28, "pm4_0": 75.8, "pm10": 5.78, "voc_index": 312.1, "nox_index": 414.1, "temperature_c": 24.38, "humidity_rh": 26.82}
+ Payload: {"ts": "2026-03-07T11:16:10.172493+00:00", "device_id": "dev-1da013e6", "sensor": "sen55", "pm1_0": 31.07, "pm2_5": 42.44, "pm4_0": 103.73, "pm10": 95.74, "voc_index": 495.5, "nox_index": 402.6, "temperature_c": 23.3, "humidity_rh": 24.69}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:20.881867+00:00", "device_id": "dev-e3b5c847", "sensor": "gas_sensor", "co_ppm": 38.61, "co2_ppm": 685, "ch4_ppm": 7.0, "nh3_ppm": 13.837, "tvoc_ppb": 223}
+ Payload: {"ts": "2026-03-07T11:16:10.172541+00:00", "device_id": "dev-d7b286ca", "sensor": "gas_sensor", "co_ppm": 0.19, "co2_ppm": 1199, "ch4_ppm": 5.172, "nh3_ppm": 16.749, "tvoc_ppb": 828}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:21.882232+00:00", "device_id": "dev-1b09cb8e", "sensor": "sen55", "pm1_0": 19.17, "pm2_5": 51.92, "pm4_0": 1.35, "pm10": 41.19, "voc_index": 83.1, "nox_index": 253.9, "temperature_c": 28.85, "humidity_rh": 29.57}
+ Payload: {"ts": "2026-03-07T11:16:11.172839+00:00", "device_id": "dev-57bf8b9c", "sensor": "sen55", "pm1_0": 41.78, "pm2_5": 51.22, "pm4_0": 7.82, "pm10": 142.3, "voc_index": 63.1, "nox_index": 249.5, "temperature_c": 20.13, "humidity_rh": 67.41}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:21.882286+00:00", "device_id": "dev-22b9bcd1", "sensor": "gas_sensor", "co_ppm": 18.06, "co2_ppm": 930, "ch4_ppm": 7.271, "nh3_ppm": 2.695, "tvoc_ppb": 1081}
+ Payload: {"ts": "2026-03-07T11:16:11.172896+00:00", "device_id": "dev-2410a24c", "sensor": "gas_sensor", "co_ppm": 18.39, "co2_ppm": 361, "ch4_ppm": 9.092, "nh3_ppm": 2.983, "tvoc_ppb": 89}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:22.882653+00:00", "device_id": "dev-c7506ed2", "sensor": "sen55", "pm1_0": 25.12, "pm2_5": 18.3, "pm4_0": 33.69, "pm10": 108.75, "voc_index": 254.8, "nox_index": 472.5, "temperature_c": 19.97, "humidity_rh": 67.61}
+ Payload: {"ts": "2026-03-07T11:16:12.173353+00:00", "device_id": "dev-6b67b201", "sensor": "sen55", "pm1_0": 6.13, "pm2_5": 66.16, "pm4_0": 91.5, "pm10": 31.39, "voc_index": 422.0, "nox_index": 360.7, "temperature_c": 28.18, "humidity_rh": 48.97}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:22.882707+00:00", "device_id": "dev-4f30ac8d", "sensor": "gas_sensor", "co_ppm": 33.88, "co2_ppm": 1514, "ch4_ppm": 0.924, "nh3_ppm": 7.06, "tvoc_ppb": 1074}
+ Payload: {"ts": "2026-03-07T11:16:12.173682+00:00", "device_id": "dev-4ddae349", "sensor": "gas_sensor", "co_ppm": 3.34, "co2_ppm": 1334, "ch4_ppm": 5.174, "nh3_ppm": 14.184, "tvoc_ppb": 1000}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:23.883069+00:00", "device_id": "dev-c21d8e0a", "sensor": "sen55", "pm1_0": 1.92, "pm2_5": 37.34, "pm4_0": 69.19, "pm10": 29.29, "voc_index": 378.5, "nox_index": 179.1, "temperature_c": 20.41, "humidity_rh": 27.18}
+ Payload: {"ts": "2026-03-07T11:16:13.174512+00:00", "device_id": "dev-6422653a", "sensor": "sen55", "pm1_0": 49.97, "pm2_5": 64.21, "pm4_0": 102.71, "pm10": 60.92, "voc_index": 368.6, "nox_index": 451.5, "temperature_c": 20.34, "humidity_rh": 53.76}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:23.883124+00:00", "device_id": "dev-7d0925d4", "sensor": "gas_sensor", "co_ppm": 36.64, "co2_ppm": 665, "ch4_ppm": 2.935, "nh3_ppm": 13.949, "tvoc_ppb": 588}
+ Payload: {"ts": "2026-03-07T11:16:13.174599+00:00", "device_id": "dev-dd14a578", "sensor": "gas_sensor", "co_ppm": 7.62, "co2_ppm": 676, "ch4_ppm": 2.587, "nh3_ppm": 10.36, "tvoc_ppb": 260}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:24.883486+00:00", "device_id": "dev-a15e3a38", "sensor": "sen55", "pm1_0": 2.86, "pm2_5": 54.03, "pm4_0": 27.22, "pm10": 40.9, "voc_index": 494.9, "nox_index": 496.1, "temperature_c": 23.36, "humidity_rh": 57.82}
+ Payload: {"ts": "2026-03-07T11:16:14.175017+00:00", "device_id": "dev-9471f82b", "sensor": "sen55", "pm1_0": 49.54, "pm2_5": 46.53, "pm4_0": 49.11, "pm10": 127.95, "voc_index": 65.1, "nox_index": 0.2, "temperature_c": 19.71, "humidity_rh": 43.32}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:24.883533+00:00", "device_id": "dev-e88e70c4", "sensor": "gas_sensor", "co_ppm": 33.54, "co2_ppm": 927, "ch4_ppm": 2.288, "nh3_ppm": 2.091, "tvoc_ppb": 1146}
+ Payload: {"ts": "2026-03-07T11:16:14.175081+00:00", "device_id": "dev-cc52e089", "sensor": "gas_sensor", "co_ppm": 39.73, "co2_ppm": 1259, "ch4_ppm": 9.492, "nh3_ppm": 5.965, "tvoc_ppb": 1185}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:25.883864+00:00", "device_id": "dev-6ff76bac", "sensor": "sen55", "pm1_0": 25.12, "pm2_5": 4.07, "pm4_0": 115.96, "pm10": 8.76, "voc_index": 65.3, "nox_index": 33.0, "temperature_c": 27.3, "humidity_rh": 59.53}
+ Payload: {"ts": "2026-03-07T11:16:15.175517+00:00", "device_id": "dev-ba016c77", "sensor": "sen55", "pm1_0": 42.88, "pm2_5": 10.55, "pm4_0": 29.09, "pm10": 69.46, "voc_index": 125.7, "nox_index": 5.8, "temperature_c": 25.27, "humidity_rh": 50.9}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:25.883919+00:00", "device_id": "dev-5c09be53", "sensor": "gas_sensor", "co_ppm": 11.98, "co2_ppm": 841, "ch4_ppm": 5.347, "nh3_ppm": 13.732, "tvoc_ppb": 203}
+ Payload: {"ts": "2026-03-07T11:16:15.175570+00:00", "device_id": "dev-e0f719b2", "sensor": "gas_sensor", "co_ppm": 48.58, "co2_ppm": 942, "ch4_ppm": 8.375, "nh3_ppm": 0.586, "tvoc_ppb": 938}
 
 [MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:26.884252+00:00", "device_id": "dev-193c0dd2", "sensor": "sen55", "pm1_0": 5.71, "pm2_5": 59.57, "pm4_0": 113.46, "pm10": 130.52, "voc_index": 410.9, "nox_index": 268.2, "temperature_c": 18.03, "humidity_rh": 65.3}
+ Payload: {"ts": "2026-03-07T11:16:16.175887+00:00", "device_id": "dev-de76baa7", "sensor": "sen55", "pm1_0": 28.73, "pm2_5": 74.22, "pm4_0": 106.5, "pm10": 21.91, "voc_index": 292.4, "nox_index": 318.5, "temperature_c": 19.07, "humidity_rh": 54.36}
 
 [MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:26.884296+00:00", "device_id": "dev-3914405a", "sensor": "gas_sensor", "co_ppm": 46.13, "co2_ppm": 1317, "ch4_ppm": 7.902, "nh3_ppm": 16.058, "tvoc_ppb": 1138}
-
-[MSG] Topic: sensor/data/sen55
- Payload: {"ts": "2026-03-07T11:05:27.884644+00:00", "device_id": "dev-8eddfbcd", "sensor": "sen55", "pm1_0": 32.34, "pm2_5": 28.48, "pm4_0": 58.26, "pm10": 111.64, "voc_index": 249.7, "nox_index": 118.7, "temperature_c": 23.13, "humidity_rh": 49.62}
-
-[MSG] Topic: sensor/data/gas_sensor
- Payload: {"ts": "2026-03-07T11:05:27.884691+00:00", "device_id": "dev-c31d6def", "sensor": "gas_sensor", "co_ppm": 3.04, "co2_ppm": 1324, "ch4_ppm": 7.149, "nh3_ppm": 6.669, "tvoc_ppb": 1021}
+ Payload: {"ts": "2026-03-07T11:16:16.175940+00:00", "device_id": "dev-32c012fa", "sensor": "gas_sensor", "co_ppm": 48.85, "co2_ppm": 1912, "ch4_ppm": 9.948, "nh3_ppm": 5.354, "tvoc_ppb": 871}
 
 [MQTT] Cerrando...
 [MQTT] Unsubscribe: sensor/data/sen55

@@ -147,20 +147,8 @@ else:
     print("No hay datos suficientes para generar gráfico ASCII.")
 
 # ===============================
-# GENERAR PNG (opcional)
+# ANÁLISIS TERMINADO - solo gráficas combinadas
 # ===============================
-
-if gas_data:
-    values = [d["GM702B"] for d in gas_data if "GM702B" in d]
-
-    plt.figure()
-    plt.plot(values)
-    plt.title(f"gas - GM702B - Captura $captura")
-    plt.xlabel("Muestras")
-    plt.ylabel("GM702B")
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/gas_GM702B_captura_$captura.png")
-    plt.close()
 PY
 
     echo "[6] Análisis Python completado para captura $captura."
@@ -175,7 +163,6 @@ done
 echo "==============================="
 echo " TODAS LAS CAPTURAS COMPLETADAS"
 echo "==============================="
-echo "Se han generado 3 gráficas individuales en la carpeta plots/"
 echo "Logs guardados: mqtt_capture_1.log, mqtt_capture_2.log, mqtt_capture_3.log"
 
 # Generar 3 gráficas acumulativas con los 2 sensores reales en una sola línea
