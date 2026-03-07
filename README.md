@@ -7,7 +7,36 @@ Sistema completo para capturar datos de sensores mediante protocolo MQTT y visua
 
 ---
 
-## 🔧 ¿Qué hace el script?
+## � Estructura del Proyecto
+
+```
+PRACTICA1/
+├── README.md                    # Documentación del proyecto
+├── mqtt_capture.sh             # Script principal de captura MQTT
+├── mqtt_subscribe_emqx_linux   # Cliente MQTT para Linux
+├── mqtt_subscribe_emqx_mac     # Cliente MQTT para macOS
+├── graficar_dos_sensores.py    # Script Python para generar gráficas
+├── logs/                        # Directorio para archivos de log
+│   ├── mqtt_capture_1.log      # Log de primera captura
+│   ├── mqtt_capture_2.log      # Log de segunda captura
+│   └── mqtt_capture_3.log      # Log de tercera captura
+└── plots/                       # Directorio para gráficas generadas
+    ├── dos_sensores_reales_20s.png  # Gráfica del primer tercio
+    ├── dos_sensores_reales_40s.png  # Gráfica de dos tercios
+    └── dos_sensores_reales_60s.png  # Gráfica completa
+```
+
+### Descripción de Componentes
+
+- **Scripts de Captura**: Clientes MQTT específicos para cada sistema operativo
+- **Script Principal**: Orquesta el proceso de captura y visualización
+- **Visualizador Python**: Genera gráficas PNG y visualizaciones ASCII
+- **Logs**: Registro detallado de cada sesión de captura
+- **Gráficas**: Resultados visuales en diferentes intervalos de tiempo
+
+---
+
+## �🔧 ¿Qué hace el script?
 
 ### Funcionamiento Principal
 1. **Captura datos** de 2 sensores MQTT durante 60 segundos
